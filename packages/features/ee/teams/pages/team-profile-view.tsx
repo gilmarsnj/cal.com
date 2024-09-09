@@ -97,7 +97,7 @@ const ProfileView = () => {
     data: team,
     isPending,
     error,
-  } = trpc.viewer.teams.getMinimal.useQuery(
+  } = trpc.viewer.teams.get.useQuery(
     { teamId },
     {
       enabled: !!teamId,
@@ -252,7 +252,7 @@ const ProfileView = () => {
   );
 };
 
-export type TeamProfileFormProps = { team: RouterOutputs["viewer"]["teams"]["getMinimal"] };
+export type TeamProfileFormProps = { team: RouterOutputs["viewer"]["teams"]["get"] };
 
 const TeamProfileForm = ({ team }: TeamProfileFormProps) => {
   const utils = trpc.useUtils();
