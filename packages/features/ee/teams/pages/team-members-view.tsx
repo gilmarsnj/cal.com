@@ -18,15 +18,6 @@ import { MemberInvitationModalWithoutMembers } from "../components/MemberInvitat
 import MemberListItem from "../components/MemberListItem";
 import TeamInviteList from "../components/TeamInviteList";
 
-type Team = RouterOutputs["viewer"]["teams"]["get"];
-
-export type ConnectedAppsType = {
-  name: string | null;
-  logo: string | null;
-  externalId: string | null;
-  app: { slug: string; categories: AppCategories[] } | null;
-};
-
 const MembersView = () => {
   const { t } = useLocale();
   const [showMemberInvitationModal, setShowMemberInvitationModal] = useState(false);
