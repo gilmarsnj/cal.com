@@ -20,109 +20,12 @@ import TeamInviteList from "../components/TeamInviteList";
 
 type Team = RouterOutputs["viewer"]["teams"]["get"];
 
-interface MembersListProps {
-  team: Team;
-  isOrgAdminOrOwner: boolean | undefined;
-}
-
 export type ConnectedAppsType = {
   name: string | null;
   logo: string | null;
   externalId: string | null;
   app: { slug: string; categories: AppCategories[] } | null;
 };
-
-function MembersList(props: MembersListProps) {
-  const { team, isOrgAdminOrOwner } = props;
-  const { t } = useLocale();
-  const [searchTerm, setSearchTerm] = useState("");
-  const debouncedSearchTerm = useDebounce(searchTerm, 500);
-  const [connectedApps, setConnectedApps] = useState<Record<number, ConnectedAppsType[]>>({});
-  const [userIds, setUserIds] = useState<number[]>([]);
-
-  const { data: getUserConnectedApps } = trpc.viewer.teams.getUserConnectedApps.useQuery(
-    { userIds, teamId: team.id },
-    { enabled: !!userIds.length }
-  );
-
-  const { data, isFetching, status, fetchNextPage, isFetchingNextPage, hasNextPage } =
-    trpc.viewer.teams.lazyLoadMembers.useInfiniteQuery(
-      {
-        limit: 10,
-        searchTerm: debouncedSearchTerm,
-        teamId: team.id,
-      },
-      {
-        enabled: !!team?.id,
-        getNextPageParam: (lastPage) => lastPage.nextCursor,
-        placeholderData: keepPreviousData,
-        refetchOnWindowFocus: true,
-        refetchOnMount: true,
-        staleTime: 0,
-      }
-    );
-
-  // To defer fetching Connected Apps
-  useEffect(() => {
-    if (data?.pages) {
-      const userIds = data.pages[data.pages.length - 1].members.map((member) => member.id);
-      setUserIds(userIds);
-    }
-  }, [data]);
-
-  useEffect(() => {
-    if (getUserConnectedApps) {
-      setConnectedApps((prev) => ({ ...prev, ...getUserConnectedApps }));
-    }
-  }, [getUserConnectedApps]);
-
-  const buttonInView = useInViewObserver(() => {
-    if (!isFetching && hasNextPage && status === "success") {
-      fetchNextPage();
-    }
-  }, null);
-
-  return (
-    <div className="flex flex-col gap-y-3">
-      <TextField
-        type="search"
-        autoComplete="false"
-        onChange={(e) => setSearchTerm(e.target.value)}
-        value={searchTerm}
-        placeholder={`${t("search")}...`}
-      />
-      {data?.pages[0]?.members?.length && team ? (
-        <ul
-          className="divide-subtle border-subtle divide-y rounded-md border "
-          data-testId="team-member-list-container">
-          {data.pages?.map((page) => {
-            return page.members.map((member) => {
-              return (
-                <MemberListItem
-                  key={member.id}
-                  team={team}
-                  member={member}
-                  isOrgAdminOrOwner={isOrgAdminOrOwner}
-                  searchTerm={debouncedSearchTerm}
-                  connectedApps={connectedApps[member.id] ?? []}
-                />
-              );
-            });
-          })}
-        </ul>
-      ) : null}
-      <div className="text-default p-4 text-center" ref={buttonInView.ref}>
-        <Button
-          color="minimal"
-          loading={isFetchingNextPage}
-          disabled={!hasNextPage}
-          onClick={() => fetchNextPage()}>
-          {hasNextPage ? t("load_more_results") : t("no_more_results")}
-        </Button>
-      </div>
-    </div>
-  );
-}
 
 const MembersView = () => {
   const { t } = useLocale();
