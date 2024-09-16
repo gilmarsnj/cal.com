@@ -37,12 +37,12 @@ import TeamAvailabilityModal from "./TeamAvailabilityModal";
 
 interface Props {
   team: NonNullable<RouterOutputs["viewer"]["teams"]["get"]>;
-  member: RouterOutputs["viewer"]["teams"]["lazyLoadMembers"]["members"][number];
+  member: RouterOutputs["viewer"]["teams"]["listMembers"]["members"][number];
   isOrgAdminOrOwner: boolean | undefined;
   setShowMemberInvitationModal: Dispatch<SetStateAction<boolean>>;
 }
 
-export type User = RouterOutputs["viewer"]["teams"]["lazyLoadMembers"]["members"][number];
+export type User = RouterOutputs["viewer"]["teams"]["listMembers"]["members"][number];
 
 const checkIsOrg = (team: Props["team"]) => {
   return team.isOrganization;
