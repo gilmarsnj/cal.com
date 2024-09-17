@@ -15,7 +15,7 @@ import DisableTeamImpersonation from "../components/DisableTeamImpersonation";
 import InviteLinkSettingsModal from "../components/InviteLinkSettingsModal";
 import MakeTeamPrivateSwitch from "../components/MakeTeamPrivateSwitch";
 import { MemberInvitationModalWithoutMembers } from "../components/MemberInvitationModal";
-import MemberListItem from "../components/MemberListItem";
+import MemberList from "../components/MemberList";
 import TeamInviteList from "../components/TeamInviteList";
 
 const MembersView = () => {
@@ -87,7 +87,7 @@ const MembersView = () => {
 
             {((team?.isPrivate && isAdmin) || !team?.isPrivate || isOrgAdminOrOwner) && team && (
               <>
-                <MemberListItem
+                <MemberList
                   team={team}
                   isOrgAdminOrOwner={isOrgAdminOrOwner}
                   setShowMemberInvitationModal={setShowMemberInvitationModal}
