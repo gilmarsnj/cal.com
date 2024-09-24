@@ -332,16 +332,13 @@ const ZoomVideoApiAdapter = (credential: CredentialPayload): VideoApiAdapter => 
           },
           body: JSON.stringify(await translateEvent(event)),
         });
-        
-        const updatedMeeting = await fetchZoomApi(`meetings/${bookingRef.uid}`);
-        const result = zoomEventResultSchema.parse(updatedMeeting);
 
-        return {
+        return Promise.resolve({
           type: "zoom_video",
-          id: result.id.toString(),
-          password: result.password || "",
-          url: result.join_url,
-        };
+          id: bookingRef.meetingId as string,
+          password: bookingRef.meetingPassword as string,
+          url: bookingRef.meetingUrl as string,
+        });
       } catch (err) {
         log.error("Failed to update meeting", safeStringify(err));
         return Promise.reject(new Error("Failed to update meeting"));

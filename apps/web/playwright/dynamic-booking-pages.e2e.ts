@@ -5,7 +5,6 @@ import { MembershipRole } from "@calcom/prisma/client";
 import { test } from "./lib/fixtures";
 import {
   bookTimeSlot,
-  confirmReschedule,
   doOnOrgDomain,
   selectFirstAvailableTimeSlotNextMonth,
   selectSecondAvailableTimeSlotNextMonth,
@@ -43,7 +42,7 @@ test("dynamic booking", async ({ page, users }) => {
     await selectSecondAvailableTimeSlotNextMonth(page);
 
     // No need to fill fields since they should be already filled
-    await confirmReschedule(page);
+    await page.locator('[data-testid="confirm-reschedule-button"]').click();
     await page.waitForURL((url) => {
       return url.pathname.startsWith("/booking");
     });

@@ -11,8 +11,8 @@ export class CreateManagedUserInput {
   email!: string;
 
   @IsString()
-  @ApiProperty({ example: "Alice Smith", description: "Managed user's name is used in emails" })
-  name!: string;
+  @IsOptional()
+  name?: string;
 
   @IsOptional()
   @ApiProperty({ example: 12, enum: [12, 24], description: "Must be 12 or 24" })
@@ -29,11 +29,7 @@ export class CreateManagedUserInput {
   @IsTimeZone()
   @IsOptional()
   @CapitalizeTimeZone()
-  @ApiProperty({
-    example: "America/New_York",
-    description: `Timezone is used to create user's default schedule from Monday to Friday from 9AM to 5PM. If it is not passed then user does not have
-      a default schedule and it must be created manually via the /schedules endpoint. Until the schedule is created, the user can't access availability atom to set his / her availability nor booked.`,
-  })
+  @ApiProperty({ example: "America/New_York" })
   timeZone?: string;
 
   @IsEnum(Locales)

@@ -7,7 +7,7 @@ import type { PrismaClient } from "@calcom/prisma";
 
 import type { createEmailsFixture } from "./fixtures/emails";
 import { test } from "./lib/fixtures";
-import { getEmailsReceivedByUser, submitAndWaitForResponse } from "./lib/testUtils";
+import { getEmailsReceivedByUser } from "./lib/testUtils";
 import { expectInvitationEmailToBeReceived } from "./team/expects";
 
 test.describe.configure({ mode: "parallel" });
@@ -62,9 +62,13 @@ test.describe("Update Profile", () => {
 
     await page.getByTestId("password").fill(user?.username ?? "Nameless User");
 
-    await submitAndWaitForResponse(page, "/api/trpc/viewer/updateProfile?batch=1", {
-      action: () => page.getByTestId("profile-update-email-submit-button").click(),
-    });
+    await page.getByTestId("profile-update-email-submit-button").click();
+
+    const toastLocator = await page.getByTestId("toast-success");
+
+    const textContent = await toastLocator.textContent();
+
+    expect(textContent).toContain(email);
 
     // Instead of dealing with emails in e2e lets just get the token and navigate to it
     const verificationToken = await prisma.verificationToken.findFirst({

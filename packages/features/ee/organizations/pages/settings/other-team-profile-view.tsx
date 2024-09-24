@@ -38,6 +38,7 @@ import {
   TextField,
 } from "@calcom/ui";
 
+import { getLayout } from "../../../../settings/layouts/SettingsLayout";
 import { subdomainSuffix } from "../../../organizations/lib/orgDomains";
 
 const regex = new RegExp("^[a-zA-Z0-9-]*$");
@@ -54,7 +55,7 @@ const teamProfileFormSchema = z.object({
   bio: z.string(),
 });
 
-const OtherTeamProfileView = ({ isAppDir }: { isAppDir?: boolean }) => {
+const OtherTeamProfileView = () => {
   const { t } = useLocale();
   const router = useRouter();
   const utils = trpc.useUtils();
@@ -169,7 +170,7 @@ const OtherTeamProfileView = ({ isAppDir }: { isAppDir?: boolean }) => {
 
   return (
     <>
-      {!isAppDir ? <Meta title={t("profile")} description={t("profile_team_description")} /> : null}
+      <Meta title={t("profile")} description={t("profile_team_description")} />
       {!isPending ? (
         <>
           {isAdmin ? (
@@ -367,5 +368,7 @@ const OtherTeamProfileView = ({ isAppDir }: { isAppDir?: boolean }) => {
     </>
   );
 };
+
+OtherTeamProfileView.getLayout = getLayout;
 
 export default OtherTeamProfileView;

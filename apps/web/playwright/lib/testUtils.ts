@@ -218,9 +218,9 @@ export async function installAppleCalendar(page: Page) {
 }
 
 export async function getInviteLink(page: Page) {
-  const json = await submitAndWaitForResponse(page, "/api/trpc/teams/createInvite?batch=1", {
-    action: () => page.locator(`[data-testid="copy-invite-link-button"]`).click(),
-  });
+  const response = await page.waitForResponse("/api/trpc/teams/createInvite?batch=1");
+  expect(response.status()).toBe(200);
+  const json = await response.json();
   return json[0].result.data.json.inviteLink as string;
 }
 
@@ -428,15 +428,10 @@ export async function gotoBookingPage(page: Page) {
 }
 
 export async function saveEventType(page: Page) {
-  await submitAndWaitForResponse(page, "/api/trpc/eventTypes/update?batch=1", {
-    action: () => page.locator("[data-testid=update-eventtype]").click(),
-  });
+  await page.locator("[data-testid=update-eventtype]").click();
 }
 
-/**
- * Fastest way so far to test for saving changes and form submissions
- * @see https://playwright.dev/docs/api/class-page#page-wait-for-response
- */
+/** Fastest way so far to test for saving changes and form submissions */
 export async function submitAndWaitForResponse(
   page: Page,
   url: string,
@@ -446,11 +441,4 @@ export async function submitAndWaitForResponse(
   await action();
   const response = await submitPromise;
   expect(response.status()).toBe(expectedStatusCode);
-  return response.json();
-}
-
-export async function confirmReschedule(page: Page, url = "/api/book/event") {
-  await submitAndWaitForResponse(page, url, {
-    action: () => page.locator('[data-testid="confirm-reschedule-button"]').click(),
-  });
 }

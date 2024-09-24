@@ -14,5 +14,4 @@ export type AppFlags = {
   "google-workspace-directory": boolean;
   "disable-signup": boolean;
   attributes: boolean;
-  "organizer-request-email-v2": boolean;
 };

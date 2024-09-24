@@ -105,7 +105,7 @@ export class OrganizationsEventTypesService {
       role: user.role,
       organizationId: user.organizationId,
       organization: { isOrgAdmin },
-      profile: { id: profileId || null },
+      profile: { id: profileId },
       metadata: user.metadata,
     };
   }

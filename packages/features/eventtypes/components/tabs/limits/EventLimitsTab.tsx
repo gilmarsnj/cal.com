@@ -23,8 +23,6 @@ import { Button, DateRangePicker, InputField, Label, Select, SettingsToggle, Tex
 
 type IPeriodType = (typeof PeriodType)[keyof typeof PeriodType];
 
-export type EventLimitsTabProps = Pick<EventTypeSetupProps, "eventType">;
-
 /**
  * We technically have a ROLLING_WINDOW future limit option that isn't shown as a Radio Option. Because UX is better by providing it as a toggle with ROLLING Limit radio option.
  * Also, ROLLING_WINDOW reuses the same `periodDays` field and `periodCountCalendarDays` fields
@@ -288,7 +286,7 @@ const MinimumBookingNoticeInput = React.forwardRef<
   );
 });
 
-export const EventLimitsTab = ({ eventType }: EventLimitsTabProps) => {
+export const EventLimitsTab = ({ eventType }: Pick<EventTypeSetupProps, "eventType">) => {
   const { t, i18n } = useLocale();
   const formMethods = useFormContext<FormValues>();
 

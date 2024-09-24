@@ -1,6 +1,6 @@
 import { withAppDirSsr } from "app/WithAppDirSsr";
 import withEmbedSsrAppDir from "app/WithEmbedSSR";
-import type { PageProps as _PageProps } from "app/_types";
+import type { Params, SearchParams } from "app/_types";
 import { _generateMetadata } from "app/_utils";
 import { WithLayout } from "app/layoutHOC";
 import { cookies, headers } from "next/headers";
@@ -13,7 +13,13 @@ import TeamPage from "~/team/team-view";
 
 const getData = withAppDirSsr<PageProps>(getServerSideProps);
 
-export const generateMetadata = async ({ params, searchParams }: _PageProps) => {
+export const generateMetadata = async ({
+  params,
+  searchParams,
+}: {
+  params: Params;
+  searchParams: SearchParams;
+}) => {
   const props = await getData(buildLegacyCtx(headers(), cookies(), params, searchParams));
   const teamName = props.team.name || "Nameless Team";
 

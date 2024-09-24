@@ -44,6 +44,8 @@ import {
   TextField,
 } from "@calcom/ui";
 
+import { getLayout } from "../../../settings/layouts/SettingsLayout";
+
 const regex = new RegExp("^[a-zA-Z0-9-]*$");
 
 const teamProfileFormSchema = z.object({
@@ -60,18 +62,10 @@ const teamProfileFormSchema = z.object({
 
 type FormValues = z.infer<typeof teamProfileFormSchema>;
 
-const SkeletonLoader = ({
-  isAppDir,
-  title,
-  description,
-}: {
-  isAppDir?: boolean;
-  title: string;
-  description: string;
-}) => {
+const SkeletonLoader = ({ title, description }: { title: string; description: string }) => {
   return (
     <SkeletonContainer>
-      {!isAppDir ? <Meta title={title} description={description} borderInShellHeader={true} /> : null}
+      <Meta title={title} description={description} borderInShellHeader={true} />
       <div className="border-subtle space-y-6 rounded-b-xl border border-t-0 px-4 py-8">
         <div className="flex items-center">
           <SkeletonAvatar className="me-4 mt-0 h-16 w-16 px-4" />
@@ -87,7 +81,7 @@ const SkeletonLoader = ({
   );
 };
 
-const ProfileView = ({ isAppDir }: { isAppDir?: boolean }) => {
+const ProfileView = () => {
   const params = useParamsWithFallback();
   const teamId = Number(params.id);
   const { t } = useLocale();
@@ -165,16 +159,12 @@ const ProfileView = ({ isAppDir }: { isAppDir?: boolean }) => {
   }
 
   if (isPending) {
-    return (
-      <SkeletonLoader isAppDir={isAppDir} title={t("profile")} description={t("profile_team_description")} />
-    );
+    return <SkeletonLoader title={t("profile")} description={t("profile_team_description")} />;
   }
 
   return (
     <>
-      {!isAppDir ? (
-        <Meta title={t("profile")} description={t("profile_team_description")} borderInShellHeader={true} />
-      ) : null}
+      <Meta title={t("profile")} description={t("profile_team_description")} borderInShellHeader={true} />
 
       {isAdmin ? (
         <TeamProfileForm team={team} />
@@ -447,5 +437,7 @@ const TeamProfileForm = ({ team }: TeamProfileFormProps) => {
     </Form>
   );
 };
+
+ProfileView.getLayout = getLayout;
 
 export default ProfileView;

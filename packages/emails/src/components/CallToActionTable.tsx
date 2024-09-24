@@ -1,7 +1,5 @@
-import BaseTable from "./BaseTable";
-
 export const CallToActionTable = (props: { children: React.ReactNode }) => (
-  <BaseTable border="0" style={{ verticalAlign: "top" }} width="100%">
+  <table>
     <tbody>
       <tr>
         <td
@@ -20,5 +18,5 @@ export const CallToActionTable = (props: { children: React.ReactNode }) => (
         </td>
       </tr>
     </tbody>
-  </BaseTable>
+  </table>
 );

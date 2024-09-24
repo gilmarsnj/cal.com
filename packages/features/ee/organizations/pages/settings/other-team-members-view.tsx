@@ -14,6 +14,7 @@ import { trpc } from "@calcom/trpc/react";
 import type { RouterOutputs } from "@calcom/trpc/react";
 import { Meta, showToast, Button } from "@calcom/ui";
 
+import { getLayout } from "../../../../settings/layouts/SettingsLayout";
 import MakeTeamPrivateSwitch from "../../../teams/components/MakeTeamPrivateSwitch";
 import MemberListItem from "../components/MemberListItem";
 
@@ -59,7 +60,7 @@ function MembersList(props: MembersListProps) {
   );
 }
 
-const MembersView = ({ isAppDir }: { isAppDir?: boolean }) => {
+const MembersView = () => {
   const { t, i18n } = useLocale();
   const router = useRouter();
   const params = useParamsWithFallback();
@@ -135,27 +136,25 @@ const MembersView = ({ isAppDir }: { isAppDir?: boolean }) => {
 
   return (
     <>
-      {!isAppDir ? (
-        <Meta
-          title={t("team_members")}
-          description={t("members_team_description")}
-          CTA={
-            isOrgAdminOrOwner ? (
-              <Button
-                type="button"
-                color="primary"
-                StartIcon="plus"
-                className="ml-auto"
-                onClick={() => setShowMemberInvitationModal(true)}
-                data-testid="new-member-button">
-                {t("add")}
-              </Button>
-            ) : (
-              <></>
-            )
-          }
-        />
-      ) : null}
+      <Meta
+        title={t("team_members")}
+        description={t("members_team_description")}
+        CTA={
+          isOrgAdminOrOwner ? (
+            <Button
+              type="button"
+              color="primary"
+              StartIcon="plus"
+              className="ml-auto"
+              onClick={() => setShowMemberInvitationModal(true)}
+              data-testid="new-member-button">
+              {t("add")}
+            </Button>
+          ) : (
+            <></>
+          )
+        }
+      />
       {!isPending && (
         <>
           <div>
@@ -246,5 +245,7 @@ const MembersView = ({ isAppDir }: { isAppDir?: boolean }) => {
     </>
   );
 };
+
+MembersView.getLayout = getLayout;
 
 export default MembersView;

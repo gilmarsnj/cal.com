@@ -5,9 +5,6 @@ import EmbedSnippet from "@calcom/embed-snippet";
 
 import Cal from "./Cal";
 
-// Exporting for consumption by @calcom/embed-react user
-export type { EmbedEvent } from "@calcom/embed-core";
-
 export function getCalApi(options?: {
   embedJsUrl?: string;
   namespace?: string;

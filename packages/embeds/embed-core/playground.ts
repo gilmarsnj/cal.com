@@ -1,8 +1,7 @@
-import type { GlobalCal, EmbedEvent } from "./src/embed";
+import type { GlobalCal } from "./src/embed";
 
 const Cal = window.Cal as GlobalCal;
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const callback = function (e: any) {
+const callback = function (e) {
   const detail = e.detail;
   console.log("Event: ", e.type, detail);
 };
@@ -28,7 +27,6 @@ const only = searchParams.get("only");
 const colorScheme = searchParams.get("color-scheme");
 const prerender = searchParams.get("prerender");
 
-// @ts-expect-error We haven't defined ENABLE_FUTURE_ROUTES as it is a playground specific variable.
 window.ENABLE_FUTURE_ROUTES = searchParams.get("future-routes") === "true";
 
 if (colorScheme) {
@@ -471,6 +469,10 @@ if (only === "all" || only == "ns:monthView") {
       },
     }
   );
+  Cal.ns.monthView("on", {
+    action: "*",
+    callback,
+  });
 }
 
 if (only === "all" || only == "ns:weekView") {
@@ -530,24 +532,3 @@ if (only === "all" || only == "ns:columnView") {
     callback,
   });
 }
-
-// Verifies that the type of e.detail.data is valid. type-check will fail if we accidentally break it.
-const bookingSuccessfulV2Callback = (e: EmbedEvent<"bookingSuccessfulV2">) => {
-  const data = e.detail.data;
-  console.log("bookingSuccessfulV2", {
-    endTime: data.endTime,
-    startTime: data.startTime,
-    title: data.title,
-  });
-
-  // Remove the event listener after it is fired once
-  Cal("off", {
-    action: "bookingSuccessfulV2",
-    callback: bookingSuccessfulV2Callback,
-  });
-};
-
-Cal("on", {
-  action: "bookingSuccessfulV2",
-  callback: bookingSuccessfulV2Callback,
-});

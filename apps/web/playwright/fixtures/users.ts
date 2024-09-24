@@ -1,4 +1,4 @@
-import type { Browser, Page, WorkerInfo } from "@playwright/test";
+import type { Page, WorkerInfo } from "@playwright/test";
 import { expect } from "@playwright/test";
 import type Prisma from "@prisma/client";
 import type { Team } from "@prisma/client";
@@ -732,14 +732,6 @@ const createUserFixture = (user: UserWithIncludes, page: Page) => {
     self,
     apiLogin: async (password?: string) =>
       apiLogin({ ...(await self()), password: password || user.username }, store.page),
-    /** Don't forget to close context at the end */
-    apiLoginOnNewBrowser: async (browser: Browser, password?: string) => {
-      const newContext = await browser.newContext();
-      const newPage = await newContext.newPage();
-      await apiLogin({ ...(await self()), password: password || user.username }, newPage);
-      // Don't forget to: newContext.close();
-      return [newContext, newPage] as const;
-    },
     /**
      * @deprecated use apiLogin instead
      */
@@ -1022,11 +1014,10 @@ export async function login(
   await emailLocator.fill(user.email ?? `${user.username}@example.com`);
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   await passwordLocator.fill(user.password ?? user.username!);
+  await signInLocator.click();
 
   // waiting for specific login request to resolve
-  const responsePromise = page.waitForResponse(/\/api\/auth\/callback\/credentials/);
-  await signInLocator.click();
-  await responsePromise;
+  await page.waitForResponse(/\/api\/auth\/callback\/credentials/);
 }
 
 export async function apiLogin(

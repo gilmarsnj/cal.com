@@ -2,7 +2,7 @@ import { CallToActionIcon } from "./CallToActionIcon";
 
 export const CallToAction = (props: {
   label: string;
-  href?: string;
+  href: string;
   secondary?: boolean;
   startIconName?: string;
   endIconName?: string;
@@ -23,9 +23,6 @@ export const CallToAction = (props: {
 
     return `${paddingTop} ${paddingRight} ${paddingBottom} ${paddingLeft}`;
   };
-
-  const El = href ? "a" : "button";
-  const restProps = href ? { href, target: "_blank" } : { type: "submit" };
 
   return (
     <p
@@ -49,8 +46,7 @@ export const CallToAction = (props: {
         boxSizing: "border-box",
         height: "2.25rem",
       }}>
-      {/* @ts-expect-error shared props between href and button */}
-      <El
+      <a
         style={{
           color: secondary ? "#292929" : "#FFFFFF",
           textDecoration: "none",
@@ -58,16 +54,9 @@ export const CallToAction = (props: {
           alignItems: "center",
           justifyContent: "center",
           margin: "auto",
-          appearance: "none",
-          background: "transparent",
-          border: "none",
-          padding: 0,
-          fontSize: "inherit",
-          fontWeight: 500,
-          lineHeight: "1rem",
-          cursor: "pointer",
         }}
-        {...restProps}
+        href={href}
+        target="_blank"
         rel="noreferrer">
         {startIconName && (
           <CallToActionIcon
@@ -80,7 +69,7 @@ export const CallToAction = (props: {
         )}
         {label}
         {endIconName && <CallToActionIcon iconName={endIconName} />}
-      </El>
+      </a>
     </p>
   );
 };
