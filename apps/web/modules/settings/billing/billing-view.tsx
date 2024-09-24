@@ -15,7 +15,7 @@ interface CtaRowProps {
   className?: string;
 }
 
-export const CtaRow = ({ title, description, className, children }: CtaRowProps) => {
+const CtaRow = ({ title, description, className, children }: CtaRowProps) => {
   return (
     <>
       <section className={classNames("text-default flex flex-col sm:flex-row", className)}>

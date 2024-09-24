@@ -32,7 +32,7 @@ const AssignmentWarningDialog = dynamic(
 
 const EventSetupTab = dynamic(() =>
   // import web wrapper when it's ready
-  import("./EventSetupTabWebWrapper").then((mod) => mod)
+  import("@calcom/features/eventtypes/components/tabs/setup/EventSetupTab").then((mod) => mod.EventSetupTab)
 );
 
 const EventAvailabilityTab = dynamic(() =>
@@ -50,7 +50,9 @@ const EventTeamAssignmentTab = dynamic(() =>
 
 const EventLimitsTab = dynamic(() =>
   // import web wrapper when it's ready
-  import("./EventLimitsTabWebWrapper").then((mod) => mod)
+  import("@calcom/features/eventtypes/components/tabs/limits/EventLimitsTab").then(
+    (mod) => mod.EventLimitsTab
+  )
 );
 
 const EventAdvancedTab = dynamic(() =>

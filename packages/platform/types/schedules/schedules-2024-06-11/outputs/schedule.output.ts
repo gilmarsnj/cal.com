@@ -25,7 +25,7 @@ export class ScheduleOutput_2024_06_11 {
   ownerId!: number;
 
   @IsString()
-  @ApiProperty({ example: "Catch up hours" })
+  @ApiProperty({ example: "One-on-one coaching" })
   name!: string;
 
   @IsTimeZone()
@@ -40,13 +40,8 @@ export class ScheduleOutput_2024_06_11 {
     example: [
       {
         days: ["Monday", "Tuesday"],
-        startTime: "17:00",
-        endTime: "19:00",
-      },
-      {
-        days: ["Wednesday", "Thursday"],
-        startTime: "16:00",
-        endTime: "20:00",
+        startTime: "09:00",
+        endTime: "10:00",
       },
     ],
   })
@@ -65,8 +60,8 @@ export class ScheduleOutput_2024_06_11 {
     example: [
       {
         date: "2024-05-20",
-        startTime: "18:00",
-        endTime: "21:00",
+        startTime: "12:00",
+        endTime: "13:00",
       },
     ],
   })

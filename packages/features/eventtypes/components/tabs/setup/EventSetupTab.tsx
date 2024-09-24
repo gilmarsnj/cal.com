@@ -15,11 +15,12 @@ import { slugify } from "@calcom/lib/slugify";
 import turndown from "@calcom/lib/turndownService";
 import { Label, Select, SettingsToggle, Skeleton, TextField, Editor } from "@calcom/ui";
 
-export type EventSetupTabProps = Pick<
-  EventTypeSetupProps,
-  "eventType" | "locationOptions" | "team" | "teamMembers" | "destinationCalendar"
->;
-export const EventSetupTab = (props: EventSetupTabProps) => {
+export const EventSetupTab = (
+  props: Pick<
+    EventTypeSetupProps,
+    "eventType" | "locationOptions" | "team" | "teamMembers" | "destinationCalendar"
+  >
+) => {
   const { t } = useLocale();
   const formMethods = useFormContext<FormValues>();
   const { eventType, team } = props;

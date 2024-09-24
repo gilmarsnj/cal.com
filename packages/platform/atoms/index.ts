@@ -23,4 +23,3 @@ export { useTeams } from "./hooks/teams/useTeams";
 export { SelectedCalendarsSettingsPlatformWrapper as SelectedCalendarsSettings } from "./selected-calendars/index";
 export { DestinationCalendarSettingsPlatformWrapper as DestinationCalendarSettings } from "./destination-calendar/index";
 export { CalendarSettingsPlatformWrapper as CalendarSettings } from "./calendar-settings/index";
-export type { UpdateScheduleInput_2024_06_11 as UpdateScheduleBody } from "@calcom/platform-types";

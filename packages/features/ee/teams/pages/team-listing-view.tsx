@@ -3,16 +3,19 @@
 import { useLocale } from "@calcom/lib/hooks/useLocale";
 import { Meta } from "@calcom/ui";
 
+import { getLayout } from "../../../settings/layouts/SettingsLayout";
 import { TeamsListing } from "../components";
 
-const TeamListingView = ({ isAppDir }: { isAppDir?: boolean }) => {
+const TeamListingView = () => {
   const { t } = useLocale();
   return (
     <>
-      {!isAppDir ? <Meta title={t("teams")} description={t("create_manage_teams_collaborative")} /> : null}
+      <Meta title={t("teams")} description={t("create_manage_teams_collaborative")} />
       <TeamsListing />
     </>
   );
 };
+
+TeamListingView.getLayout = getLayout;
 
 export default TeamListingView;

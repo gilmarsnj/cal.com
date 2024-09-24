@@ -1,5 +1,6 @@
+import LegacyPage from "@pages/d/[link]/[slug]";
 import { withAppDirSsr } from "app/WithAppDirSsr";
-import type { PageProps as _PageProps } from "app/_types";
+import type { Params, SearchParams } from "app/_types";
 import { _generateMetadata } from "app/_utils";
 import { WithLayout } from "app/layoutHOC";
 import { cookies, headers } from "next/headers";
@@ -9,11 +10,14 @@ import { EventRepository } from "@calcom/lib/server/repository/event";
 
 import { buildLegacyCtx } from "@lib/buildLegacyCtx";
 import { getServerSideProps } from "@lib/d/[link]/[slug]/getServerSideProps";
-import { type PageProps } from "@lib/d/[link]/[slug]/getServerSideProps";
 
-import Type from "~/d/[link]/d-type-view";
-
-export const generateMetadata = async ({ params, searchParams }: _PageProps) => {
+export const generateMetadata = async ({
+  params,
+  searchParams,
+}: {
+  params: Params;
+  searchParams: SearchParams;
+}) => {
   const legacyCtx = buildLegacyCtx(headers(), cookies(), params, searchParams);
   const pageProps = await getData(legacyCtx);
 
@@ -38,5 +42,5 @@ export const generateMetadata = async ({ params, searchParams }: _PageProps) => 
   );
 };
 
-const getData = withAppDirSsr<PageProps>(getServerSideProps);
-export default WithLayout({ getLayout: null, Page: Type, getData })<"P">;
+const getData = withAppDirSsr(getServerSideProps);
+export default WithLayout({ getLayout: null, Page: LegacyPage, getData })<"P">;

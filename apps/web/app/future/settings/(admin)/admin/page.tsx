@@ -1,4 +1,8 @@
+import LegacyPage from "@pages/settings/admin/index";
 import { _generateMetadata } from "app/_utils";
+import { WithLayout } from "app/layoutHOC";
+
+import { getLayout } from "@components/auth/layouts/AdminLayoutAppDir";
 
 export const generateMetadata = async () =>
   await _generateMetadata(
@@ -6,5 +10,4 @@ export const generateMetadata = async () =>
     () => "admin_description"
   );
 
-const Page = () => <h1>Admin index</h1>;
-export default Page;
+export default WithLayout({ getServerLayout: getLayout, Page: LegacyPage })<"P">;

@@ -1,5 +1,4 @@
 export { BaseEmailHtml } from "./BaseEmailHtml";
-export { BookingConfirmationForm } from "./BookingConfirmationForm";
 export { V2BaseEmailHtml } from "./V2BaseEmailHtml";
 export { CallToAction } from "./CallToAction";
 export { CallToActionTable } from "./CallToActionTable";

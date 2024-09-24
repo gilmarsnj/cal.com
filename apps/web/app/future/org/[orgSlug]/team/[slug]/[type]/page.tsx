@@ -1,5 +1,5 @@
 import { withAppDirSsr } from "app/WithAppDirSsr";
-import type { PageProps as _PageProps } from "app/_types";
+import type { Params, SearchParams } from "app/_types";
 import { _generateMetadata } from "app/_utils";
 import { WithLayout } from "app/layoutHOC";
 import { cookies, headers } from "next/headers";
@@ -13,7 +13,13 @@ import { getServerSideProps } from "@lib/team/[slug]/[type]/getServerSideProps";
 import type { PageProps } from "~/team/type-view";
 import TypePage from "~/team/type-view";
 
-export const generateMetadata = async ({ params, searchParams }: _PageProps) => {
+export const generateMetadata = async ({
+  params,
+  searchParams,
+}: {
+  params: Params;
+  searchParams: SearchParams;
+}) => {
   const legacyCtx = buildLegacyCtx(headers(), cookies(), params, searchParams);
   const props = await getData(legacyCtx);
   const { user: username, slug: eventSlug, booking } = props;

@@ -17,15 +17,16 @@ import type { RouterOutputs } from "@calcom/trpc/react";
 import { Button, Form, Meta, showToast, SettingsToggle } from "@calcom/ui";
 
 import ThemeLabel from "../../../settings/ThemeLabel";
+import { getLayout } from "../../../settings/layouts/SettingsLayout";
 
 type BrandColorsFormValues = {
   brandColor: string;
   darkBrandColor: string;
 };
 
-type ProfileViewProps = { team: RouterOutputs["viewer"]["teams"]["getMinimal"] } & { isAppDir?: boolean };
+type ProfileViewProps = { team: RouterOutputs["viewer"]["teams"]["getMinimal"] };
 
-const ProfileView = ({ team, isAppDir }: ProfileViewProps) => {
+const ProfileView = ({ team }: ProfileViewProps) => {
   const { t } = useLocale();
   const utils = trpc.useUtils();
 
@@ -79,13 +80,11 @@ const ProfileView = ({ team, isAppDir }: ProfileViewProps) => {
 
   return (
     <>
-      {!isAppDir ? (
-        <Meta
-          title={t("booking_appearance")}
-          description={t("appearance_team_description")}
-          borderInShellHeader={false}
-        />
-      ) : null}
+      <Meta
+        title={t("booking_appearance")}
+        description={t("appearance_team_description")}
+        borderInShellHeader={false}
+      />
       {isAdmin ? (
         <>
           <Form
@@ -183,7 +182,7 @@ const ProfileView = ({ team, isAppDir }: ProfileViewProps) => {
   );
 };
 
-const ProfileViewWrapper = ({ isAppDir }: { isAppDir?: boolean }) => {
+const ProfileViewWrapper = () => {
   const router = useRouter();
   const params = useParamsWithFallback();
 
@@ -211,16 +210,14 @@ const ProfileViewWrapper = ({ isAppDir }: { isAppDir?: boolean }) => {
 
   if (isPending)
     return (
-      <AppearanceSkeletonLoader
-        isAppDir={isAppDir}
-        title={t("appearance")}
-        description={t("appearance_team_description")}
-      />
+      <AppearanceSkeletonLoader title={t("appearance")} description={t("appearance_team_description")} />
     );
 
   if (!team) return null;
 
-  return <ProfileView team={team} isAppDir={isAppDir} />;
+  return <ProfileView team={team} />;
 };
+
+ProfileViewWrapper.getLayout = getLayout;
 
 export default ProfileViewWrapper;
